@@ -1,0 +1,27 @@
+
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80" # 将主机的 8080 端口映射到容器的 80 端口
+    networks:
+      - car-network
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # 将主机的 3000 端口映射到容器的 3000 端口
+    environment:
+      - NODE_ENV=production
+    networks:
+      - car-network
+
+networks:
+  car-network:
+    driver: bridge # 使用默认的 bridge 网络
